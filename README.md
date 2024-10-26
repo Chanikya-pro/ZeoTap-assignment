@@ -1,106 +1,74 @@
-# ZeoTap-assignment
-Real-Time Weather Monitoring App
-This project is a real-time weather monitoring system that fetches data from the OpenWeatherMap API and provides detailed, summarized insights on current and forecasted weather conditions. The app displays real-time updates for specified locations (metros in India) and stores data with daily summaries and alerts for user-defined conditions.
+# Weather App
 
-Table of Contents
-Features
-Design Choices
-Installation
-Dependencies
-Setup Instructions
-Usage
-Data Processing System
-Test Cases
-Future Improvements
-Features
-Real-time weather updates for metros in India (Delhi, Mumbai, Chennai, Bangalore, Kolkata, Hyderabad).
-Configurable update intervals (e.g., every 5 minutes).
-Temperature conversions from Kelvin to Celsius.
-Daily aggregates for average, maximum, minimum temperatures, and dominant weather conditions.
-Customizable alert thresholds for specific temperature or weather conditions.
-Visualizations for daily summaries, historical trends, and triggered alerts.
-Design Choices
-Data Source: We use the OpenWeatherMap API to obtain weather data, as it provides comprehensive and reliable weather information.
-Rollups and Aggregates: Daily summaries with average, max, and min temperatures provide concise daily insights. Dominant weather condition is identified based on the most frequently reported main condition (e.g., Rain, Clear).
-Alerting: User-defined thresholds enable personalized alerting, which is efficient for monitoring critical weather conditions.
-Visualization: Visual components are implemented to display trends and alerts in an easy-to-understand format, aiding in user interaction and data comprehension.
-Installation
-To run this application, ensure you have the following installed:
+This project is a responsive weather application that displays real-time weather information and a weekly forecast for the user's current location. It utilizes the OpenWeather API to fetch weather data, and the app is styled with CSS for a clean and intuitive user experience.
 
-Node.js (for the application server and API calls)
-Docker (optional, to run the application within a container environment)
-Database (PostgreSQL or MongoDB are recommended for storing weather summaries)
-Dependencies
-Install the following dependencies:
+## Features
 
-Express: for setting up a server
-Axios: for API requests to OpenWeatherMap
-Moment.js: for handling date and time formatting
-Mongoose (if using MongoDB) or Sequelize (if using PostgreSQL): for database management
-To install all dependencies, run:
+- **Real-Time Weather Data**: Displays the current weather conditions, including temperature, humidity, pressure, wind speed, sunrise, and sunset times.
+- **Weekly Forecast**: Shows a daily forecast for the next 5 days.
+- **Responsive Design**: Adjusts layout for both mobile and desktop displays.
 
-bash
-Copy code
-npm install express axios moment dotenv
-# For MongoDB
-npm install mongoose
-# For PostgreSQL
-npm install sequelize pg pg-hstore
-Setup Instructions
-API Key: Sign up at OpenWeatherMap and generate an API key. Store this key in a .env file.
+## Technologies Used
 
-Database Configuration:
+- **HTML**: For structuring the layout.
+- **CSS**: For styling and responsive design.
+- **JavaScript**: For dynamic data fetching and display updates.
+- **Moment.js**: For date and time formatting.
+- **OpenWeather API**: To retrieve live weather data.
 
-MongoDB: Configure MongoDB with a database URL in .env if you plan to use MongoDB for data storage.
-PostgreSQL: Configure PostgreSQL with credentials and URL if using it for storage.
-Docker Configuration:
+## Dependencies
 
-Dockerfile: Set up Docker with a Dockerfile that specifies the environment, application dependencies, and scripts.
-Docker-Compose: Optionally, set up docker-compose.yml for a multi-container environment with a database (MongoDB/PostgreSQL) and web server.
-Run the Application:
+To run the application, ensure the following dependencies are set up:
 
-bash
-Copy code
-npm start
-The app should now be running and accessible at localhost:3000.
+1. **Docker**: Used to create a web server container to host the application.
+2. **OpenWeather API Key**: Obtain an API key from [OpenWeather](https://openweathermap.org/api) for data retrieval.
 
-Usage
-Configurable Settings: Define the data update interval (default is every 5 minutes) in the .env file.
-Alert Settings: Adjust threshold settings in the config.json file to set specific temperature limits (e.g., alert if temperature exceeds 35°C).
-Data Processing System
-The system consists of the following main components:
+## Installation and Setup
 
-Data Retrieval: The application makes periodic API requests to fetch data for predefined cities.
+Follow these steps to run the application locally using Docker:
 
-Temperature Conversion: Temperatures are converted from Kelvin to Celsius for user convenience.
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd weather-app
+   ```
 
-Rollups and Aggregates:
+2. **Add API Key**:
+   - Replace the `API_KEY` in the `script.js` file with your OpenWeather API key:
+     ```javascript
+     const API_KEY = 'your_openweather_api_key_here';
+     ```
 
-Daily Summaries:
-Average Temperature: Calculated from all readings within a day.
-Maximum and Minimum Temperatures: The highest and lowest recorded temperatures of the day.
-Dominant Condition: The most frequently observed condition (e.g., Rain, Clear).
-Threshold Alerts:
-Tracks real-time data to trigger alerts when conditions exceed predefined thresholds.
-Data Storage: Stores data in a database, allowing for historical insights.
+3. **Run Docker Container**:
+   - Create a Dockerfile in the project root:
+     ```dockerfile
+     FROM nginx:latest
+     COPY . /usr/share/nginx/html
+     EXPOSE 80
+     CMD ["nginx", "-g", "daemon off;"]
+     ```
+   - Build and run the container:
+     ```bash
+     docker build -t weather-app .
+     docker run -p 8080:80 weather-app
+     ```
 
-Test Cases
-System Initialization:
+4. **Access the Application**:
+   - Open a browser and navigate to `http://localhost:8080`.
 
-Confirm the application starts and connects to OpenWeatherMap using a valid API key.
-Data Retrieval:
+## Design Choices
 
-Simulate and verify API calls for each location.
-Temperature Conversion:
+- **API**: Chose the OpenWeather API for its comprehensive weather data.
+- **Responsive Design**: Media queries ensure a smooth user experience on both desktop and mobile devices.
+- **Modular JavaScript**: Functions are separated by purpose for maintainability.
+- **CSS Flexbox**: Used for flexible layout adjustments across different screen sizes.
 
-Test conversions from Kelvin to Celsius or Fahrenheit as per user preference.
-Daily Weather Summary:
+## Future Improvements
 
-Run a series of weather updates to validate daily aggregates for average, max, and min temperatures.
-Alert System:
+- **Enhanced Forecasts**: Extend to display hourly weather forecasts.
+- **User Input**: Allow users to search for weather in specific locations.
+- **Theming**: Provide light and dark mode options based on user preference.
 
-Set threshold values and test alert generation by simulating data that crosses these thresholds.
-Future Improvements
-Extendable Parameters: Support for additional weather parameters (e.g., humidity, wind speed).
-Advanced Visualizations: Enhanced trend analysis and forecasting.
-Notification System: Email or SMS alerts for threshold breaches.
+## License
+
+This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
